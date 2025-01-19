@@ -6,6 +6,7 @@ import {
   Get,
   Request,
   UseGuards,
+  Param,
 } from "@nestjs/common";
 import { SUCCESS_STATUS } from "src/dto";
 import { MemberDto } from "src/dto/member.dto";
@@ -52,9 +53,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get("profile")
   async getUserProfile(@Request() req: any) {
-    console.log(req);
-
     const userId = req.user.userId;
     return this.authService.getUserById(userId);
+  }
+
+  @Get(":id")
+  async getUserById(@Param("id") id: number) {
+    return this.authService.getUserById(id);
   }
 }
